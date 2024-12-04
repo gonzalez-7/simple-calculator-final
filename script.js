@@ -81,15 +81,16 @@ const initializeCalculator = () => {
 
       // Handle number buttons
       if (!isNaN(value)) {
-        if (isEvaluated) return; // Do nothing if evaluated
+        if (isEvaluated) {
+          firstNumber = value; // Start fresh for chaining
+          secondNumber = "";
+          isEvaluated = false;
+        }
 
         // Append numbers to the correct variable
         if (operator) {
-          // Prevent padding with zeros
-          if (secondNumber === "0" && value === "0") return;
           secondNumber += value;
         } else {
-          if (firstNumber === "0" && value === "0") return;
           firstNumber += value;
         }
       }
