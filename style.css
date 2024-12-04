@@ -85,3 +85,15 @@ h2 {
 .calculator-button:active {
     transform: scale(0.95);
 }
+
+#button-clear {
+    color: rgb(255, 0, 0);
+}
+
+#button-equals {
+    color: rgb(0, 255, 0);
+}
+
+#button-plus, #button-minus, #button-multiply, #button-divide {
+    color: rgb(129, 155, 12);
+}
