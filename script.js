@@ -38,14 +38,22 @@ const toggleButtons = (enable) => {
 
 // Save the last expression to localStorage
 const saveLastExpression = (expression) => {
-  localStorage.setItem("lastExpression", expression);
+  try {
+    localStorage.setItem("lastExpression", expression);
+  } catch (error) {
+    console.error("Error saving to localStorage", error);
+  }
 };
 
 // Load the last expression on page load
 const loadLastExpression = () => {
-  const lastExpression = localStorage.getItem("lastExpression");
-  if (lastExpression) {
-    lastResultDisplay.textContent = lastExpression;
+  try {
+    const lastExpression = localStorage.getItem("lastExpression");
+    if (lastExpression) {
+      lastResultDisplay.textContent = lastExpression;
+    }
+  } catch (error) {
+    console.error("Error loading from localStorage", error);
   }
 };
 
@@ -110,6 +118,7 @@ const handleButtonClick = (value) => {
         toggleButtons(false); // Disable buttons after evaluation
       } catch (error) {
         updateDisplay("Error");
+        console.error("Calculation error: ", error);
       }
     }
     return;
