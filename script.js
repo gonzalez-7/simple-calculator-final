@@ -57,6 +57,24 @@ const initializeCalculator = () => {
     button.addEventListener("click", () => {
       handleButtonClick(button.textContent);
     });
+
+    // Add mouse down/up events for button click feedback
+    button.addEventListener("mousedown", () => {
+      button.style.transform = "scale(0.95)"; // Shrink the button a bit when clicked
+    });
+
+    button.addEventListener("mouseup", () => {
+      button.style.transform = "scale(1)"; // Reset the size after release
+    });
+
+    // Add hover effect with CSS
+    button.addEventListener("mouseover", () => {
+      button.style.backgroundColor = "#ddd"; // Change button color on hover
+    });
+
+    button.addEventListener("mouseout", () => {
+      button.style.backgroundColor = ""; // Reset to original color after hover
+    });
   });
 
   // Handle keyboard input
@@ -76,7 +94,53 @@ const initializeCalculator = () => {
 
 // Handle button clicks and keyboard input
 const handleButtonClick = (value) => {
-  // The rest of your logic for handling button clicks
+  // Handle the logic for button clicks, numbers, operators, and equals
+  if (value === "C") {
+    resetCalculator();
+    return;
+  }
+
+  if (value === "=") {
+    if (firstNumber && operator && secondNumber) {
+      try {
+        result = eval(`${firstNumber} ${operator} ${secondNumber}`);
+        updateDisplay(`${firstNumber} ${operator} ${secondNumber} = ${result}`);
+        saveLastExpression(`${firstNumber} ${operator} ${secondNumber} = ${result}`);
+        isEvaluated = true;
+        toggleButtons(false); // Disable buttons after evaluation
+      } catch (error) {
+        updateDisplay("Error");
+      }
+    }
+    return;
+  }
+
+  // Handle number buttons
+  if (!isNaN(value)) {
+    if (isEvaluated) {
+      firstNumber = value; // Start fresh for chaining
+      secondNumber = "";
+      isEvaluated = false;
+    }
+
+    // Append numbers to the correct variable
+    if (operator) {
+      secondNumber += value;
+    } else {
+      firstNumber += value;
+    }
+  }
+
+  // Handle operator buttons
+  if (["+", "-", "*", "/"].includes(value)) {
+    if (!firstNumber || isEvaluated) return; // Ensure first number is set
+    operator = value;
+  }
+
+  // Update display dynamically
+  if (!isEvaluated) {
+    updateDisplay(`${firstNumber} ${operator} ${secondNumber}`);
+  }
 };
 
 // Run the calculator
