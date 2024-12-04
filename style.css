@@ -45,7 +45,6 @@ h2 {
 
 .calculator-button {
 	border-color: lightgrey;
-	border-style: solid;
 	cursor: pointer;
 	display: inline;
 	font-size: 4em;
@@ -53,6 +52,10 @@ h2 {
 	padding: 20px 40px;
 	height: 150px;
 	width: 150px;
+	background: linear-gradient(135deg, #f3f3f3, #e0e0e0);
+    border: none;
+    color: #333;
+    transition: background 0.3s, transform 0.2s;
 }
 
 .double-width {
@@ -67,4 +70,13 @@ h2 {
 #calculator, #display, .calculator-button {
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.calculator-button:hover {
+    background: linear-gradient(135deg, #e6e6e6, #d1d1d1);
+    transform: scale(1.05);
+}
+
+.calculator-button:active {
+    transform: scale(0.95);
 }
