@@ -6,9 +6,14 @@ const buttons = document.querySelectorAll(".calculator-button");
 const initializeCalculator = () => {
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
-      console.log(button.textContent); // Log button press
+        updateDisplay(button.textContent); // Update the display
     });
   });
+};
+
+// Function to update the display
+const updateDisplay = (value) => {
+    display.textContent = value;
 };
 
 // Run the calculator
