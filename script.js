@@ -55,59 +55,24 @@ const initializeCalculator = () => {
 
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
-      const value = button.textContent;
-
-      // Handle clear button
-      if (button.id === "button-clear") {
-        resetCalculator();
-        return;
-      }
-
-      // Handle equals button
-      if (button.id === "button-equals") {
-        if (firstNumber && operator && secondNumber) {
-          try {
-            result = eval(`${firstNumber} ${operator} ${secondNumber}`);
-            updateDisplay(`${firstNumber} ${operator} ${secondNumber} = ${result}`);
-            saveLastExpression(`${firstNumber} ${operator} ${secondNumber} = ${result}`);
-            isEvaluated = true;
-            toggleButtons(false); // Disable buttons after evaluation
-          } catch (error) {
-            updateDisplay("Error");
-          }
-        }
-        return;
-      }
-
-      // Handle number buttons
-      if (!isNaN(value)) {
-        if (isEvaluated) {
-          firstNumber = value; // Start fresh for chaining
-          secondNumber = "";
-          isEvaluated = false;
-        }
-
-        // Append numbers to the correct variable
-        if (operator) {
-          secondNumber += value;
-        } else {
-          firstNumber += value;
-        }
-      }
-
-      // Handle operator buttons
-      if (["+", "-", "*", "/"].includes(value)) {
-        if (!firstNumber || isEvaluated) return; // Ensure first number is set
-        operator = value;
-      }
-
-      // Update display dynamically
-      if (!isEvaluated) {
-        updateDisplay(`${firstNumber} ${operator} ${secondNumber}`);
-      }
+      handleButtonClick(button.textContent);
     });
+  });
+
+  // Handle keyboard input
+  window.addEventListener("keydown", (event) => {
+    const key = event.key;
+    if (key >= "0" && key <= "9") {
+      handleButtonClick(key);
+    } else if (key === "Enter" || key === "=") {
+      handleButtonClick("=");
+    } else if (key === "Escape" || key === "c") {
+      handleButtonClick("C");
+    } else if (["+", "-", "*", "/"].includes(key)) {
+      handleButtonClick(key);
+    }
   });
 };
 
-// Run the calculator
-initializeCalculator();
+// Handle button clicks and keyboard input
+const handleButtonClick = (value) => {
