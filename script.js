@@ -76,3 +76,8 @@ const initializeCalculator = () => {
 
 // Handle button clicks and keyboard input
 const handleButtonClick = (value) => {
+  // The rest of your logic for handling button clicks
+};
+
+// Run the calculator
+initializeCalculator();
