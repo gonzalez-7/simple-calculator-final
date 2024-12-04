@@ -38,16 +38,16 @@ const toggleButtons = (enable) => {
 
 // Save the last expression to localStorage
 const saveLastExpression = (expression) => {
-  // Removed try-catch block for simplicity
   localStorage.setItem("lastExpression", expression);
 };
 
 // Load the last expression on page load
 const loadLastExpression = () => {
-  // Removed try-catch block for simplicity
   const lastExpression = localStorage.getItem("lastExpression");
   if (lastExpression) {
     lastResultDisplay.textContent = lastExpression;
+  } else {
+    lastResultDisplay.textContent = "None"; // Default message when no last expression is saved
   }
 };
 
@@ -69,9 +69,11 @@ const initializeCalculator = () => {
       if (button.id === "button-equals") {
         if (firstNumber && operator && secondNumber) {
           try {
-            result = eval(`${firstNumber} ${operator} ${secondNumber}`); // Removed extra error handling
-            updateDisplay(`${firstNumber} ${operator} ${secondNumber} = ${result}`);
-            saveLastExpression(`${firstNumber} ${operator} ${secondNumber} = ${result}`);
+            result = eval(`${firstNumber} ${operator} ${secondNumber}`);
+            const expression = `${firstNumber} ${operator} ${secondNumber} = ${result}`;
+            updateDisplay(result);
+            saveLastExpression(expression);
+            lastResultDisplay.textContent = expression; // Update last result display with the last evaluated expression
             isEvaluated = true;
             toggleButtons(false); // Disable buttons after evaluation
           } catch {
